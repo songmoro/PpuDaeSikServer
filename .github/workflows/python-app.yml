@@ -2,7 +2,7 @@ name: Python application
 
 on:
   schedule:
-    - cron: '*/120 * * * *'
+    - cron: '*/240 * * * *'
     
 jobs:
   build:
@@ -19,7 +19,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install requests
-        # if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: run
       run: |
-        python main.py ${{ secrets.NOTION_KEY }} ${{ secrets.RESTAURANT_ID }} ${{ secrets.DOMITORY_ID }}
+        python main.py ${{ secrets.NOTION_KEY }} ${{ secrets.DEPLOYMENT_KEY }} ${{ secrets.RESTAURANT_ID }} ${{ secrets.RESTAURANT_BACKUP_ID }}  ${{ secrets.DOMITORY_BACKUP_ID }}
