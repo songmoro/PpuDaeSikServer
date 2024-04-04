@@ -237,9 +237,42 @@ def deletePageFromDatabase(headers, databaseId):
         pageResponse = requests.request("PATCH", pageUrl, headers=headers, data=payload)
 #####
 
+##### 배포 상태 변경
+def changeDeploymentStatus(headers, databaseId, status):
+    url = "https://api.notion.com/v1/databases/" + databaseId + "/query?filter_properties=title"
+    
+    response = requests.request("POST", url, headers=headers)
+    payload = json.dumps({
+        "properties": {
+            "Status": {
+                "rich_text": [{
+                    "text": {
+                        "content": status
+                    }
+                }]
+            },
+            "LastUpdate": {
+                "rich_text": [{
+                    "text": {
+                        "content": datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                    }
+                }]
+            }
+        }
+    })
+    
+    for list in response.json()['results']:
+        pageUrl = "https://api.notion.com/v1/pages/" + list['id']
+        pageResponse = requests.request("PATCH", pageUrl, headers=headers, data=payload)
+#####
+
 token = sys.argv[1]
-restaurantDatabaseId = sys.argv[2]
-domitoryDatabaseId = sys.argv[3]
+deployDatabaseId = sys.argv[2]
+restaurantDatabaseId = sys.argv[3]
+domitoryDatabaseId = sys.argv[4]
+backupRestaurantDatabaseId = sys.argv[5]
+backupDomitoryDatabaseId = sys.argv[6]
+
 
 headers = {
     "Authorization": "Bearer " + token,
@@ -247,8 +280,11 @@ headers = {
     "Notion-Version": "2022-02-22"
 }
 
-# 식당
-scrapingRestaurant(headers, restaurantDatabaseId)
 
-# 기숙사
+changeDeploymentStatus(headers, deployDatabaseId, "Update")
+scrapingRestaurant(headers, restaurantDatabaseId)
 scrapingDomitory(headers, domitoryDatabaseId)
+
+changeDeploymentStatus(headers, deployDatabaseId, "Done")
+scrapingRestaurant(headers, backupRestaurantDatabaseId)
+scrapingDomitory(headers, backupDomitoryDatabaseId)
