@@ -2,7 +2,7 @@ name: Python application
 
 on:
   schedule:
-    - cron: '*/240 * * * *'
+    - cron: '*/300 * * * *'
     
 jobs:
   build:
