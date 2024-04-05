@@ -21,4 +21,4 @@ jobs:
         pip install requests
     - name: run
       run: |
-        python main.py ${{ secrets.NOTION_KEY }} ${{ secrets.DEPLOYMENT_KEY }} ${{ secrets.RESTAURANT_ID }} ${{ secrets.DOMITORY_ID }} ${{ secrets.RESTAURANT_BACKUP_ID }} ${{ secrets.DOMITORY_BACKUP_ID }}
+        python main.py
