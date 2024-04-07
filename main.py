@@ -232,9 +232,10 @@ def deletePageFromDatabase(headers, databaseId):
 
     payload = json.dumps({"archived": True})
 
-    for list in response.json()['results']:
-        pageUrl = "https://api.notion.com/v1/pages/" + list['id']
-        pageResponse = requests.request("PATCH", pageUrl, headers=headers, data=payload)
+    while response.json()['has_more']:
+        for list in response.json()['results']:
+            pageUrl = "https://api.notion.com/v1/pages/" + list['id']
+            pageResponse = requests.request("PATCH", pageUrl, headers=headers, data=payload)
 #####
 
 ##### 배포 상태 변경
