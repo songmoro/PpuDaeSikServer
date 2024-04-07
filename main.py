@@ -236,6 +236,9 @@ def deletePageFromDatabase(headers, databaseId):
         for list in response.json()['results']:
             pageUrl = "https://api.notion.com/v1/pages/" + list['id']
             pageResponse = requests.request("PATCH", pageUrl, headers=headers, data=payload)
+            
+        if response.json()['has_more']:
+            break
 #####
 
 ##### 배포 상태 변경
