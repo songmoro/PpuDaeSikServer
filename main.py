@@ -237,6 +237,7 @@ def deletePageFromDatabase(headers, databaseId):
             pageResponse = requests.request("PATCH", pageUrl, headers=headers, data=payload)
 
         response = requests.request("POST", url, headers=headers)
+        print(response.json())
 #####
 
 ##### 배포 상태 변경
