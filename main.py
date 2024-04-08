@@ -227,17 +227,17 @@ def scrapingDomitory(headers, databaseId):
 ##### 페이지 삭제
 def deletePageFromDatabase(headers, databaseId):
     url = "https://api.notion.com/v1/databases/" + databaseId + "/query"
-    response = requests.request("POST", url, headers=headers)
-    
     payload = json.dumps({"archived": True})
     
-    while len(response.json()['results']) != 0:       
+    while True:
+        response = requests.request("POST", url, headers=headers)
+        
+        if len(response.json()['results']) == 0:
+            break
+        
         for list in response.json()['results']:
             pageUrl = "https://api.notion.com/v1/pages/" + list['id']
             pageResponse = requests.request("PATCH", pageUrl, headers=headers, data=payload)
-
-        response = requests.request("POST", url, headers=headers)
-        print(response.json())
 #####
 
 ##### 배포 상태 변경
