@@ -232,7 +232,7 @@ def deletePageFromDatabase(headers, databaseId):
 
     payload = json.dumps({"archived": True})
 
-    while response.json()['has_more']:
+    while True:
         for list in response.json()['results']:
             pageUrl = "https://api.notion.com/v1/pages/" + list['id']
             pageResponse = requests.request("PATCH", pageUrl, headers=headers, data=payload)
@@ -252,13 +252,6 @@ def changeDeploymentStatus(headers, databaseId, status):
                 "rich_text": [{
                     "text": {
                         "content": status
-                    }
-                }]
-            },
-            "LastUpdate": {
-                "rich_text": [{
-                    "text": {
-                        "content": datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
                     }
                 }]
             }
