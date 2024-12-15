@@ -203,7 +203,7 @@ def scrapingDomitory(headers, databaseId):
             }
         }
         
-        if data['mealKindGcd'] in ["01", "02", "03", "04"]:
+        if data['mealKindGcd'] != "00":
             data = json.dumps(newPageData)
             res = requests.post(createdUrl, headers=headers, data=data)
         
