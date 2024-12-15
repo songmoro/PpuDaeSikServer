@@ -202,9 +202,10 @@ def scrapingDomitory(headers, databaseId):
                 }
             }
         }
-
-        data = json.dumps(newPageData)
-        res = requests.post(createdUrl, headers=headers, data=data)
+        
+        if data['mealKindGcd'] in ["01", "02", "03", "04"]:
+            data = json.dumps(newPageData)
+            res = requests.post(createdUrl, headers=headers, data=data)
         
     deletePageFromDatabase(headers, databaseId)
 
