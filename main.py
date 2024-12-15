@@ -203,9 +203,8 @@ def scrapingDomitory(headers, databaseId):
             }
         }
         
-        if data['mealKindGcd'] != "00":
-            data = json.dumps(newPageData)
-            res = requests.post(createdUrl, headers=headers, data=data)
+        data = json.dumps(newPageData)
+        res = requests.post(createdUrl, headers=headers, data=data)
         
     deletePageFromDatabase(headers, databaseId)
 
@@ -222,7 +221,8 @@ def scrapingDomitory(headers, databaseId):
 
         if response.status_code == 200:
             for data in response.json():
-                createPageToDomitory(n, headers, databaseId, data)
+                if data['mealKindGcd'] != "00":
+                    createPageToDomitory(n, headers, databaseId, data)
 #####
                     
 ##### 페이지 삭제
